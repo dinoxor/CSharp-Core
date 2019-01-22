@@ -4,4 +4,8 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="servicestack.text.core" Version="5.4.0" />
+  </ItemGroup>
+
 </Project>
