@@ -12,15 +12,18 @@ namespace SampleApi.Controllers
     [ApiController]
     public class FirstNameController : ControllerBase
     {
-        private const string url = @"https://www.dropbox.com/s/phffcbuedbir0a3/AddressBookData.txt?dl=1";
+        //private const string url = @"https://www.dropbox.com/s/phffcbuedbir0a3/AddressBookData.txt?dl=1";
+        private readonly IRepository _repository;
+
+        public FirstNameController(IRepository repository) => _repository = repository;
 
         // GET api/firstName
         [HttpGet]
         public ActionResult<IEnumerable<Contact>> Get()
         {
-            var contactRepository = new ContactRepository(url);
+            //var contactRepository = new ContactRepository(url);
 
-            var results = contactRepository.GetAll();
+            var results = _repository.GetAll();
 
             return results;
         }
@@ -29,12 +32,13 @@ namespace SampleApi.Controllers
         [HttpGet("{firstName}")]
         public ActionResult<Contact> Get(string firstName)
         {
-            var contactRepository = new ContactRepository(url);
+            //var contactRepository = new ContactRepository(url);
+
             Contact result;
 
             try
             {
-                result = contactRepository.GetByFirstName(firstName);
+                result = _repository.GetByFirstName(firstName);
             }
             catch (Exception ex)
             {

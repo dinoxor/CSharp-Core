@@ -3,6 +3,9 @@ using AddressBook.Model;
 using ServiceStack;
 using System.Net;
 using System.Linq;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
+using SampleApi.Model;
 
 namespace AddressBook.Repository
 {
@@ -10,9 +13,10 @@ namespace AddressBook.Repository
     {
         private string _url;
 
-        public ContactRepository(string url)
+        //public ContactRepository(IOptions<AppSettings> options) => _url = options.Value.TextDatabaseUrl;        
+        public ContactRepository(IOptions<AppSettings> options)
         {
-            _url = url;
+            _url = options.Value.TextDatabaseUrl;
         }
 
         public List<Contact> GetAll()
