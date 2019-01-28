@@ -38,6 +38,7 @@ namespace DueDateService.Calculator
         {
             var missedDueDates = new List<DateTime>();
 
+            //if last day of the month => following due dates should be last day of the month
             if (request.DueDate.Day == DateTime.DaysInMonth(request.DueDate.Year, request.DueDate.Month))
             {
                 for (int i = 1; i <= numberOfMissedDates; i++)
@@ -47,6 +48,15 @@ namespace DueDateService.Calculator
                     missedDueDates.Add(new DateTime(nextMonth.Year, nextMonth.Month, DateTime.DaysInMonth(nextMonth.Year, nextMonth.Month)));
                 }
             }
+            else
+            {
+                for (int i = 1; i <= numberOfMissedDates; i++)
+                {
+                    var nextMonth = request.DueDate.AddMonths(i);
+
+                    missedDueDates.Add(new DateTime(nextMonth.Year, nextMonth.Month, request.DueDate.Day));
+                }
+            }            
 
             return missedDueDates;
 
