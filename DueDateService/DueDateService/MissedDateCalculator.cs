@@ -10,6 +10,7 @@ namespace DueDateService
         public DueDateResponse Calculate(DueDateRequest request)
         {
             //validation service
+            //for now validate everything
 
             var calculator = new CalculatorFactory().GetCalculator(request.Frequency);
 
