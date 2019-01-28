@@ -15,6 +15,10 @@ namespace DueDateService
             {
                 return new MonthlyCalculator();
             }
+            if (string.Equals(frequency, "semimonthly", StringComparison.OrdinalIgnoreCase))
+            {
+                return new SemiMonthlyCalculator();
+            }
 
             throw new Exception("Invalid frequency.");
         }
