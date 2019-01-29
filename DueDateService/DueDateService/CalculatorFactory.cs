@@ -19,6 +19,10 @@ namespace DueDateService
             {
                 return new SemiMonthlyCalculator();
             }
+            if (string.Equals(frequencyWithoutHyphen, "biweekly", StringComparison.OrdinalIgnoreCase))
+            {
+                return new BiWeeklyCalculator();
+            }
 
             throw new Exception("Invalid frequency.");
         }

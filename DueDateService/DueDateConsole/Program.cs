@@ -12,7 +12,8 @@ namespace DueDateConsole
             DueDateRequest request;
 
             //request = GetMonthlyRequest();
-            request = GetSemiMonthlyRequest();
+            //request = GetSemiMonthlyRequest();
+            request = GetBiWeeklyRequest();
 
             var dueDateService = new MissedDateCalculator();
             var response = dueDateService.Calculate(request);
@@ -50,7 +51,7 @@ namespace DueDateConsole
             {
                 DueDate = DateTime.Parse("2019-02-15"),
                 CurrentDate = DateTime.Parse("2019-07-15"),
-                Frequency = "semiMonthly",
+                Frequency = "semi-Monthly",
                 DueDay1 = 15,
                 DueDay2 = 30
             };
@@ -58,6 +59,16 @@ namespace DueDateConsole
             Debug.WriteLine($"{request.DueDay1} , {request.DueDay2}");
 
             return request;
+        }
+
+        private static DueDateRequest GetBiWeeklyRequest()
+        {
+            return new DueDateRequest
+            {
+                DueDate = DateTime.Parse("2019-01-01"),
+                CurrentDate = DateTime.Parse("2019-02-13"),
+                Frequency = "bi-weekly"
+            };
         }
     }
 }
