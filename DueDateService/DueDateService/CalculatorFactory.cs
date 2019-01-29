@@ -1,7 +1,5 @@
 ﻿using DueDateService.Calculator;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DueDateService
 {
@@ -26,7 +24,5 @@ namespace DueDateService
 
             throw new Exception("Invalid frequency.");
         }
-
-
     }
 }
