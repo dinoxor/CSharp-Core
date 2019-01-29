@@ -9,11 +9,11 @@ namespace DueDateService
         {
             var frequencyWithoutHyphen = frequency.Replace("-", string.Empty);
 
-            if (string.Equals(frequency, "monthly", StringComparison.OrdinalIgnoreCase))
+            if (string.Equals(frequencyWithoutHyphen, "monthly", StringComparison.OrdinalIgnoreCase))
             {
                 return new MonthlyCalculator();
             }
-            if (string.Equals(frequency, "semimonthly", StringComparison.OrdinalIgnoreCase))
+            if (string.Equals(frequencyWithoutHyphen, "semimonthly", StringComparison.OrdinalIgnoreCase))
             {
                 return new SemiMonthlyCalculator();
             }
