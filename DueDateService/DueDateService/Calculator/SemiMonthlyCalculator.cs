@@ -10,10 +10,19 @@ namespace DueDateService.Calculator
         {
             var numberOfMissedPayments = CalculateNumberOfMissedPayments(request);
 
+            //include first due date
+            numberOfMissedPayments++;
+            var missedDueDates = new List<string>()
+            {
+                { request.DueDate.ToShortDateString() }
+            };
+
+            missedDueDates.AddRange(GetMissedDates(request, numberOfMissedPayments));
+
             return new DueDateResponse
             {
                 NumberOfMissedPayments = numberOfMissedPayments,
-                MissedDates = GetMissedDates(request, numberOfMissedPayments)
+                MissedDates = missedDueDates
             };
         }
 
@@ -39,27 +48,27 @@ namespace DueDateService.Calculator
             return numberOfMissedPayments;
         }
 
-        private List<DateTime> GetMissedDates(DueDateRequest request, int numberOfMissedPayments)
+        private List<string> GetMissedDates(DueDateRequest request, int numberOfMissedPayments)
         {
-            List<DateTime> missedDates = new List<DateTime>();
+            List<string> missedDates = new List<string>();
 
             if (request.DueDate.Day == request.DueDay1)
             {
                 //same month with day2
                 if (request.DueDay2 == 31)
                 {
-                    missedDates.Add(new DateTime(request.DueDate.Year, request.DueDate.Month, DateTime.DaysInMonth(request.DueDate.Year, request.DueDate.Month)));
+                    missedDates.Add(new DateTime(request.DueDate.Year, request.DueDate.Month, DateTime.DaysInMonth(request.DueDate.Year, request.DueDate.Month)).ToShortDateString());
                 }
                 else
                 {
                     //handle wierd cases for February if dueday2 = 30 or 29
                     try
                     {
-                        missedDates.Add(new DateTime(request.DueDate.Year, request.DueDate.Month, request.DueDay2));
+                        missedDates.Add(new DateTime(request.DueDate.Year, request.DueDate.Month, request.DueDay2).ToShortDateString());
                     }
                     catch
                     {
-                        missedDates.Add(new DateTime(request.DueDate.Year, request.DueDate.Month, DateTime.DaysInMonth(request.DueDate.Year, request.DueDate.Month)));
+                        missedDates.Add(new DateTime(request.DueDate.Year, request.DueDate.Month, DateTime.DaysInMonth(request.DueDate.Year, request.DueDate.Month)).ToShortDateString());
                     }
                    
                 }               
@@ -76,7 +85,7 @@ namespace DueDateService.Calculator
 
                 if (useDay1)
                 {
-                    missedDates.Add(new DateTime(tempDate.Year, tempDate.Month, request.DueDay1));
+                    missedDates.Add(new DateTime(tempDate.Year, tempDate.Month, request.DueDay1).ToShortDateString());
 
                     useDay1 = false;
                 }
@@ -84,11 +93,11 @@ namespace DueDateService.Calculator
                 {
                     if (request.DueDay2 == 31)
                     {
-                        missedDates.Add(new DateTime(tempDate.Year, tempDate.Month, DateTime.DaysInMonth(tempDate.Year, tempDate.Month)));
+                        missedDates.Add(new DateTime(tempDate.Year, tempDate.Month, DateTime.DaysInMonth(tempDate.Year, tempDate.Month)).ToShortDateString());
                     }
                     else
                     {
-                        missedDates.Add(new DateTime(tempDate.Year, tempDate.Month, request.DueDay2));
+                        missedDates.Add(new DateTime(tempDate.Year, tempDate.Month, request.DueDay2).ToShortDateString());
                     }
 
                     addMonth++;

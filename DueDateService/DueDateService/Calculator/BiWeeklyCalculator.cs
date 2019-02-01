@@ -8,14 +8,22 @@ namespace DueDateService.Calculator
     {
         public DueDateResponse Calculate(DueDateRequest request)
         {
-            var numberofMissedPayments = CalculateNumberOfMissedPayments(request);
+            var numberOfMissedPayments = CalculateNumberOfMissedPayments(request);
+
+            //include first due date
+            numberOfMissedPayments++;
+            var missedDueDates = new List<string>()
+            {
+                { request.DueDate.ToShortDateString() }
+            };
+
+            missedDueDates.AddRange(GetMissedDates(request, numberOfMissedPayments));
 
             return new DueDateResponse
             {
-                NumberOfMissedPayments = numberofMissedPayments,
-                MissedDates = GetMissedDates(request, numberofMissedPayments),
+                NumberOfMissedPayments = numberOfMissedPayments,
+                MissedDates = missedDueDates
             };
-
         }
 
         private int CalculateNumberOfMissedPayments(DueDateRequest request)
@@ -27,13 +35,13 @@ namespace DueDateService.Calculator
             return Convert.ToInt32(numberOfMissedPayments);
         }
 
-        private List<DateTime> GetMissedDates (DueDateRequest request, int numberOfMissedPayments)
+        private List<string> GetMissedDates (DueDateRequest request, int numberOfMissedPayments)
         {
-            var missedDueDates = new List<DateTime>();
+            var missedDueDates = new List<string>();
 
             for (int i = 1; i <= numberOfMissedPayments; i++)
             {
-                missedDueDates.Add(request.DueDate.AddDays(i*14));
+                missedDueDates.Add(request.DueDate.AddDays(i*14).ToShortDateString());
             }
 
             return missedDueDates;

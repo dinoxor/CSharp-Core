@@ -9,12 +9,21 @@ namespace DueDateService.Calculator
 
         public DueDateResponse Calculate(DueDateRequest request)
         {
-            var numberOfMissedDates = CalculateNumberOfMissedDates(request);
+            var numberOfMissedPayments = CalculateNumberOfMissedDates(request);
+
+            //include first due date
+            numberOfMissedPayments++;
+            var missedDueDates = new List<string>()
+            {
+                { request.DueDate.ToShortDateString() }
+            };
+
+            missedDueDates.AddRange(GetMissedDates(request, numberOfMissedPayments));
 
             return new DueDateResponse
             {
-                NumberOfMissedPayments = numberOfMissedDates,
-                MissedDates = GetMissedDates(request,numberOfMissedDates)
+                NumberOfMissedPayments = numberOfMissedPayments,
+                MissedDates = missedDueDates
             };
         }
 
@@ -32,9 +41,9 @@ namespace DueDateService.Calculator
             return monthsDifference + yearDifferenceInMonths;
         }
 
-        private List<DateTime> GetMissedDates(DueDateRequest request, int numberOfMissedDates)
+        private List<string> GetMissedDates(DueDateRequest request, int numberOfMissedDates)
         {
-            var missedDueDates = new List<DateTime>();
+            var missedDueDates = new List<string>();
 
             //if last day of the month => following due dates should be last day of the month
             if (request.DueDate.Day == DateTime.DaysInMonth(request.DueDate.Year, request.DueDate.Month))
@@ -43,7 +52,7 @@ namespace DueDateService.Calculator
                 {
                     var nextMonth = request.DueDate.AddMonths(i);
 
-                    missedDueDates.Add(new DateTime(nextMonth.Year, nextMonth.Month, DateTime.DaysInMonth(nextMonth.Year, nextMonth.Month)));
+                    missedDueDates.Add(new DateTime(nextMonth.Year, nextMonth.Month, DateTime.DaysInMonth(nextMonth.Year, nextMonth.Month)).ToShortDateString());
                 }
             }
             else
@@ -52,7 +61,7 @@ namespace DueDateService.Calculator
                 {
                     var nextMonth = request.DueDate.AddMonths(i);
 
-                    missedDueDates.Add(new DateTime(nextMonth.Year, nextMonth.Month, request.DueDate.Day));
+                    missedDueDates.Add(new DateTime(nextMonth.Year, nextMonth.Month, request.DueDate.Day).ToShortDateString());
                 }
             }            
 
