@@ -30,7 +30,7 @@ namespace DueDateApi.Controllers
         // GET: api/DueDatesCalculator/calculate?DueDate=2019-01-01&CurrentDate=2019-02-13&Frequency=bi-weekly
         // api/DueDatesCalculator/calculate?DueDate=2019-02-15&CurrentDate=2019-07-15&Frequency=semi-monthly&DueDay1=15&DueDay2=30
         [HttpGet, Route("calculate")]
-        public ActionResult<DueDateResponse> Get([FromQuery] DueDateQueryRequest request)
+        public ActionResult<DueDateQueryResponse> Get([FromQuery] DueDateQueryRequest request)
         {            
             var calculator = new MissedDateCalculator();
 
@@ -43,7 +43,13 @@ namespace DueDateApi.Controllers
                 DueDay2 = Convert.ToInt32(request.DueDay2)
             };
 
-            return calculator.Calculate(serviceRequest);
+            var response = new DueDateQueryResponse
+            {
+                Request = serviceRequest,
+                Response = calculator.Calculate(serviceRequest)
+            };
+
+            return response;
         }
 
         // POST: api/DueDatesCalculator
