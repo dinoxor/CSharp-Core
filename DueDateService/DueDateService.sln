@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DueDateService", "DueDateSe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DueDateConsole", "DueDateConsole\DueDateConsole.csproj", "{D07D784D-7A51-4770-98F2-D3EFE1438F11}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DueDateApi", "DueDateApi\DueDateApi.csproj", "{D0D6B53F-3717-446A-B0CA-06E4A2C46C26}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DueDateApi", "DueDateApi\DueDateApi.csproj", "{D0D6B53F-3717-446A-B0CA-06E4A2C46C26}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

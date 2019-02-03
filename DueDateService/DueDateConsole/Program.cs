@@ -31,7 +31,7 @@ namespace DueDateConsole
             Debug.WriteLine("Missed Dates:");
             foreach (var missedDate in response.MissedDates)
             {
-                Debug.WriteLine($"{missedDate.ToString("MM/dd/yyyy")}");
+                Debug.WriteLine($"{missedDate}");
             }
         }
 
