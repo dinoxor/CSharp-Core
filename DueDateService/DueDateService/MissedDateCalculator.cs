@@ -1,8 +1,10 @@
-﻿using DueDateService.Model;
+﻿using System.Runtime.CompilerServices;
+using DueDateService.Model;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
+[assembly: InternalsVisibleTo("DueDateService.Tests")]
 namespace DueDateService
 {
     public class MissedDateCalculator
