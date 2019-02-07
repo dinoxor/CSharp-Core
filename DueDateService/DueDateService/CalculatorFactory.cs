@@ -7,7 +7,16 @@ namespace DueDateService
     {
         public ICalculator GetCalculator(string frequency)
         {
-            var frequencyWithoutHyphen = frequency.Replace("-", string.Empty);
+            string frequencyWithoutHyphen;
+
+            try
+            {
+                frequencyWithoutHyphen = frequency.Replace("-", string.Empty);
+            }
+            catch (NullReferenceException ex)
+            {
+                throw new Exception("Null frequency not allowed");
+            }            
 
             if (string.Equals(frequencyWithoutHyphen, "monthly", StringComparison.OrdinalIgnoreCase))
             {
