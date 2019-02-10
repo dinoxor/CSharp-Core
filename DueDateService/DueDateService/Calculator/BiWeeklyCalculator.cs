@@ -1,14 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using DueDateService.Model;
+using DueDateService.Services;
 
 namespace DueDateService.Calculator
 {
     internal class BiWeeklyCalculator : ICalculator
     {
+        private readonly ICalculationService _calculationService;
+
+        public BiWeeklyCalculator(ICalculationService calculationService)
+        {
+            calculationService = _calculationService;
+        }
+
         public DueDateResponse Calculate(DueDateRequest request)
         {
-            var numberOfMissedPayments = CalculateNumberOfMissedPayments(request);
+            var numberOfMissedPayments = _calculationService.CalculateNumberOfMissedPayments_BiWeekly(request);
 
             //include first due date
             numberOfMissedPayments++;
@@ -17,7 +24,7 @@ namespace DueDateService.Calculator
                 { request.DueDate.ToShortDateString() }
             };
 
-            missedDueDates.AddRange(GetMissedDates(request, numberOfMissedPayments));
+            missedDueDates.AddRange(_calculationService.GetMissedDates_BiWeekly(request, numberOfMissedPayments));
 
             return new DueDateResponse
             {
@@ -26,25 +33,6 @@ namespace DueDateService.Calculator
             };
         }
 
-        private int CalculateNumberOfMissedPayments(DueDateRequest request)
-        {
-            var totalDays = (request.CurrentDate - request.DueDate).TotalDays;
-
-            var numberOfMissedPayments = Math.Ceiling(totalDays / 14) - 1;
-
-            return Convert.ToInt32(numberOfMissedPayments);
-        }
-
-        private List<string> GetMissedDates (DueDateRequest request, int numberOfMissedPayments)
-        {
-            var missedDueDates = new List<string>();
-
-            for (int i = 1; i <= numberOfMissedPayments; i++)
-            {
-                missedDueDates.Add(request.DueDate.AddDays(i*14).ToShortDateString());
-            }
-
-            return missedDueDates;
-        }
+        
     }
 }

@@ -1,4 +1,5 @@
 ﻿using DueDateService.Calculator;
+using DueDateService.Services;
 using System;
 
 namespace DueDateService
@@ -20,15 +21,15 @@ namespace DueDateService
 
             if (string.Equals(frequencyWithoutHyphen, "monthly", StringComparison.OrdinalIgnoreCase))
             {
-                return new MonthlyCalculator();
+                return new MonthlyCalculator(new CalculationService());
             }
             if (string.Equals(frequencyWithoutHyphen, "semimonthly", StringComparison.OrdinalIgnoreCase))
             {
-                return new SemiMonthlyCalculator();
+                return new SemiMonthlyCalculator(new CalculationService());
             }
             if (string.Equals(frequencyWithoutHyphen, "biweekly", StringComparison.OrdinalIgnoreCase))
             {
-                return new BiWeeklyCalculator();
+                return new BiWeeklyCalculator(new CalculationService());
             }
 
             throw new Exception("Invalid frequency.");
