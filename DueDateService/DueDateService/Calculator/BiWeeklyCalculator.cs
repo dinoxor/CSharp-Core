@@ -17,8 +17,6 @@ namespace DueDateService.Calculator
         {
             var numberOfMissedPayments = _calculationService.CalculateNumberOfMissedPayments_BiWeekly(request);
 
-            //include first due date
-            numberOfMissedPayments++;
             var missedDueDates = new List<string>()
             {
                 { request.DueDate.ToShortDateString() }

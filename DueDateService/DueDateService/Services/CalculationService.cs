@@ -19,17 +19,18 @@ namespace DueDateService.Services
                 monthsDifference--;
             }
 
-            return monthsDifference + yearDifferenceInMonths;
+            return monthsDifference + yearDifferenceInMonths +1;
         }
 
-        public  List<string> GetMissedDates_Monthly(DueDateRequest request, int numberOfMissedDates)
+        public List<string> GetMissedDates_Monthly(DueDateRequest request, int numberOfMissedDates)
         {
             var missedDueDates = new List<string>();
+            missedDueDates.Add(request.DueDate.ToShortDateString());
 
             //if last day of the month => following due dates should be last day of the month
             if (request.DueDate.Day == DateTime.DaysInMonth(request.DueDate.Year, request.DueDate.Month))
             {
-                for (int i = 1; i <= numberOfMissedDates; i++)
+                for (int i = 1; i < numberOfMissedDates; i++)
                 {
                     var nextMonth = request.DueDate.AddMonths(i);
 
@@ -38,7 +39,7 @@ namespace DueDateService.Services
             }
             else
             {
-                for (int i = 1; i <= numberOfMissedDates; i++)
+                for (int i = 1; i < numberOfMissedDates; i++)
                 {
                     var nextMonth = request.DueDate.AddMonths(i);
 
@@ -58,21 +59,24 @@ namespace DueDateService.Services
 
             var numberOfMissedPayments = Math.Ceiling(totalDays / 14) - 1;
 
-            return Convert.ToInt32(numberOfMissedPayments);
+            return Convert.ToInt32(numberOfMissedPayments) + 1;
         }
 
         public List<string> GetMissedDates_BiWeekly(DueDateRequest request, int numberOfMissedPayments)
         {
             var missedDueDates = new List<string>();
+            missedDueDates.Add(request.DueDate.ToShortDateString());
 
-            for (int i = 1; i <= numberOfMissedPayments; i++)
+            for (int i = 1; i < numberOfMissedPayments; i++)
             {
                 missedDueDates.Add(request.DueDate.AddDays(i * 14).ToShortDateString());
             }
 
             return missedDueDates;
         }
+        #endregion BiWeekly
 
+        #region SemiMonthly
         public int CalculateNumberOfMissedPayments_SemiMonthly(DueDateRequest request)
         {
             var numberOfMissedPayments = (request.CurrentDate.Month - request.DueDate.Month - 1) * 2;
@@ -92,11 +96,9 @@ namespace DueDateService.Services
                 numberOfMissedPayments++;
             }
 
-            return numberOfMissedPayments;
+            return numberOfMissedPayments++;
         }
-        #endregion BiWeekly
-
-        #region SemiMonthly
+        
         public List<string> GetMissedDates_SemiMonthly(DueDateRequest request, int numberOfMissedPayments)
         {
             List<string> missedDates = new List<string>();
